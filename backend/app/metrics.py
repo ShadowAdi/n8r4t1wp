@@ -101,24 +101,3 @@ def error_by_hour_of_day(pairs: Iterable[Pair]) -> list[HourStats]:
         HourStats(hour=h, mae=fmean(abs(e) for e in errs), bias=fmean(errs), count=len(errs))
         for h, errs in sorted(grouped.items())
     ]
-
-
-@dataclass(frozen=True)
-class GenerationPercentiles:
-    p10: float
-    p50: float
-    p90: float
-    minimum: float
-    maximum: float
-
-
-def generation_percentiles(values: Sequence[float]) -> GenerationPercentiles | None:
-    if not values:
-        return None
-    return GenerationPercentiles(
-        p10=percentile(values, 10),
-        p50=percentile(values, 50),
-        p90=percentile(values, 90),
-        minimum=min(values),
-        maximum=max(values),
-    )

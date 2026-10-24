@@ -18,11 +18,9 @@ from app.config import (
 from app.schemas import (
     AnalysisResponse,
     Coverage,
-    GenerationPercentiles,
     HistogramBin,
     HorizonPoint,
     HourStats,
-    Meta,
     SelectionMode,
     SeriesPoint,
     SeriesResponse,
@@ -111,20 +109,6 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/api/meta", response_model=Meta)
-def meta(dataset: DatasetDep) -> Meta:
-    return Meta(
-        target_start=TARGET_START,
-        target_end=TARGET_END,
-        min_horizon_hours=0,
-        max_horizon_hours=MAX_HORIZON_HOURS,
-        default_horizon_hours=DEFAULT_HORIZON_HOURS,
-        default_day_ahead_cutoff=DEFAULT_DAY_AHEAD_CUTOFF,
-        actual_count=len(dataset.actuals),
-        forecast_count=len(dataset.forecasts),
-    )
-
-
 @app.get("/api/series", response_model=SeriesResponse)
 def series(
     dataset: DatasetDep,
@@ -167,7 +151,6 @@ def analysis(
 ) -> AnalysisResponse:
     start, end = _window(start, end)
     pairs = _pairs(dataset, start, end, mode, horizon_hours, cutoff)
-    generation = metrics.generation_percentiles([a.generation for a in dataset.actuals_between(start, end)])
     return AnalysisResponse(
         mode=mode,
         horizon_hours=horizon_hours if mode is SelectionMode.horizon else None,
@@ -175,5 +158,4 @@ def analysis(
         horizon_curve=horizon_curve(dataset, start, end),
         histogram=[HistogramBin(**asdict(b)) for b in metrics.error_histogram(pairs)],
         by_hour=[HourStats(**asdict(h)) for h in metrics.error_by_hour_of_day(pairs)],
-        generation=GenerationPercentiles(**asdict(generation)) if generation else None,
     )

@@ -17,13 +17,6 @@ def test_health(client):
     assert client.get("/api/health").json() == {"status": "ok"}
 
 
-def test_meta(client):
-    body = client.get("/api/meta").json()
-    assert body["actual_count"] == 8
-    assert body["forecast_count"] == 7
-    assert body["target_start"] == "2026-01-01T00:00:00Z"
-
-
 def test_series_horizon(client):
     body = client.get("/api/series", params={"horizon_hours": 2}).json()
     assert body["mode"] == "horizon"
@@ -71,4 +64,3 @@ def test_analysis(client):
     assert body["horizon_curve"][14]["count"] == 0
     assert body["horizon_curve"][14]["mae"] is None
     assert sum(b["count"] for b in body["histogram"]) == 4
-    assert body["generation"]["maximum"] == 1700.0

@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import pytest
 
-from app.metrics import error_by_hour_of_day, error_histogram, error_stats, generation_percentiles, percentile
+from app.metrics import error_by_hour_of_day, error_histogram, error_stats, percentile
 from app.selection import Pair
 
 T = datetime(2026, 1, 15, tzinfo=timezone.utc)
@@ -45,9 +45,3 @@ def test_error_histogram_fills_empty_bins():
 def test_error_by_hour_of_day():
     rows = error_by_hour_of_day([pair(100, 110, 1), pair(100, 70, 1), pair(100, 100, 5)])
     assert [(r.hour, r.mae, r.bias, r.count) for r in rows] == [(1, 20, -10, 2), (5, 0, 0, 1)]
-
-
-def test_generation_percentiles():
-    result = generation_percentiles(list(range(0, 101)))
-    assert (result.p10, result.p50, result.p90, result.minimum, result.maximum) == (10, 50, 90, 0, 100)
-    assert generation_percentiles([]) is None

@@ -8,17 +8,6 @@ export interface Filters {
   cutoff: string
 }
 
-export interface Meta {
-  target_start: string
-  target_end: string
-  min_horizon_hours: number
-  max_horizon_hours: number
-  default_horizon_hours: number
-  default_day_ahead_cutoff: string
-  actual_count: number
-  forecast_count: number
-}
-
 export interface SeriesPoint {
   start_time: string
   actual: number
@@ -66,7 +55,6 @@ export interface AnalysisResponse {
   horizon_curve: HorizonPoint[]
   histogram: { lower: number; upper: number; count: number }[]
   by_hour: { hour: number; mae: number; bias: number; count: number }[]
-  generation: { p10: number; p50: number; p90: number; minimum: number; maximum: number } | null
 }
 
 const BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
@@ -99,7 +87,6 @@ async function getJson<T>(path: string, signal?: AbortSignal): Promise<T> {
 }
 
 export const api = {
-  meta: (signal?: AbortSignal) => getJson<Meta>('/api/meta', signal),
   series: (filters: Filters, signal?: AbortSignal) => getJson<SeriesResponse>(`/api/series?${toQuery(filters)}`, signal),
   analysis: (filters: Filters, signal?: AbortSignal) =>
     getJson<AnalysisResponse>(`/api/analysis?${toQuery(filters)}`, signal),

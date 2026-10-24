@@ -9,17 +9,6 @@ class SelectionMode(str, Enum):
     day_ahead = "day_ahead"
 
 
-class Meta(BaseModel):
-    target_start: datetime
-    target_end: datetime
-    min_horizon_hours: float
-    max_horizon_hours: float
-    default_horizon_hours: float
-    default_day_ahead_cutoff: str
-    actual_count: int
-    forecast_count: int
-
-
 class SeriesPoint(BaseModel):
     start_time: datetime
     actual: float
@@ -78,14 +67,6 @@ class HourStats(BaseModel):
     count: int
 
 
-class GenerationPercentiles(BaseModel):
-    p10: float
-    p50: float
-    p90: float
-    minimum: float
-    maximum: float
-
-
 class AnalysisResponse(BaseModel):
     mode: SelectionMode
     horizon_hours: float | None
@@ -93,4 +74,3 @@ class AnalysisResponse(BaseModel):
     horizon_curve: list[HorizonPoint]
     histogram: list[HistogramBin]
     by_hour: list[HourStats]
-    generation: GenerationPercentiles | None
