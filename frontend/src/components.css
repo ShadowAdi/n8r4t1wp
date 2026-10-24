@@ -71,18 +71,6 @@
   font-size: 12px;
 }
 
-.date-range {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.date-sep {
-  color: var(--text-muted);
-}
-
-input[type="date"],
 select {
   height: 36px;
   padding: 0 10px;
@@ -332,10 +320,6 @@ input[type="range"] {
   .chart-box.tall {
     height: 300px;
   }
-
-  .date-range input {
-    flex: 1;
-  }
 }
 
 .muted-value {
@@ -573,5 +557,187 @@ input[type="range"] {
 
   .headline p {
     font-size: 16px;
+  }
+}
+
+.drp {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.drp-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.drp-trigger:hover {
+  border-color: var(--accent);
+}
+
+.drp-trigger svg {
+  color: var(--text-muted);
+  flex: none;
+}
+
+.drp-trigger[aria-expanded="true"] .drp-caret {
+  transform: rotate(180deg);
+}
+
+.drp-popover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-raised);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.drp-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.drp-month {
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.drp-hint {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.drp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 4px;
+}
+
+.drp-weekday {
+  padding-bottom: 6px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.drp-day {
+  position: relative;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.drp-day span {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transition: background 0.12s;
+}
+
+.drp-day:hover:not(:disabled):not(.range-start):not(.range-end) span {
+  background: var(--accent-soft);
+}
+
+.drp-day.in-range {
+  background: var(--accent-soft);
+}
+
+.drp-day.range-start {
+  border-radius: 999px 0 0 999px;
+}
+
+.drp-day.range-end {
+  border-radius: 0 999px 999px 0;
+}
+
+.drp-day.range-start.range-end {
+  border-radius: 999px;
+}
+
+.drp-day.range-start span,
+.drp-day.range-end span {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 650;
+}
+
+.drp-day.other-month:not(:disabled) {
+  color: var(--text-secondary);
+}
+
+.drp-day:disabled {
+  color: var(--text-muted);
+  opacity: 0.35;
+  cursor: default;
+}
+
+.drp-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.drp-link {
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.drp-link.muted {
+  color: var(--text-secondary);
+}
+
+.drp-link:hover {
+  background: var(--accent-soft);
+}
+
+@media (max-width: 640px) {
+  .drp {
+    width: 100%;
+  }
+
+  .drp-trigger {
+    width: 100%;
+  }
+
+  .drp-caret {
+    margin-left: auto;
+  }
+
+  .drp-popover {
+    width: 100%;
+    min-width: 0;
   }
 }

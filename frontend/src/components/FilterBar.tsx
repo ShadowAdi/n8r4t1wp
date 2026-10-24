@@ -1,5 +1,6 @@
 import type { Filters } from '../api'
 import { formatHours } from '../format'
+import DateRangePicker from './DateRangePicker'
 import { WINDOW_END, WINDOW_START } from '../hooks/useUrlFilters'
 
 interface Props {
@@ -23,25 +24,13 @@ export default function FilterBar({ filters, onChange }: Props) {
     <section className="filter-bar card" aria-label="Filters">
       <div className="filter-group">
         <span className="filter-label">Delivery period</span>
-        <div className="date-range">
-          <input
-            type="date"
-            aria-label="From"
-            value={filters.startDate}
-            min={WINDOW_START}
-            max={filters.endDate}
-            onChange={(e) => e.target.value && onChange({ startDate: e.target.value })}
-          />
-          <span className="date-sep">to</span>
-          <input
-            type="date"
-            aria-label="To"
-            value={filters.endDate}
-            min={filters.startDate}
-            max={WINDOW_END}
-            onChange={(e) => e.target.value && onChange({ endDate: e.target.value })}
-          />
-        </div>
+        <DateRangePicker
+          start={filters.startDate}
+          end={filters.endDate}
+          min={WINDOW_START}
+          max={WINDOW_END}
+          onChange={(startDate, endDate) => onChange({ startDate, endDate })}
+        />
         <div className="chips">
           {PRESETS.map((p) => {
             const active = p.startDate === filters.startDate && p.endDate === filters.endDate
