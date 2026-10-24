@@ -203,6 +203,7 @@ input[type="range"] {
 }
 
 .is-loading .chart-box,
+.analysis-grid.is-loading .card,
 .is-loading .table-wrap,
 .is-loading.kpi-grid {
   opacity: 0.55;
@@ -340,4 +341,247 @@ input[type="range"] {
 .muted-value {
   color: var(--text-muted);
   font-weight: 400;
+}
+
+.swatch.mae {
+  background: var(--series-mae);
+}
+
+.swatch.p90 {
+  background: var(--series-p90);
+}
+
+.swatch.block {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.swatch.over {
+  background: var(--over);
+}
+
+.swatch.under {
+  background: var(--under);
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  transition: opacity 0.2s;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+}
+
+.kpi.placeholder {
+  min-height: 108px;
+  justify-content: center;
+}
+
+.kpi-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.kpi-value {
+  font-size: 26px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kpi-note {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.insight {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  border-left: 3px solid var(--accent);
+}
+
+.insight-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.insight-body {
+  min-width: 0;
+}
+
+.insight-body h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 620;
+}
+
+.insight-body p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.insight-body strong {
+  color: var(--text-primary);
+}
+
+.buffer-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.buffer-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--page);
+  border: 1px solid var(--border);
+}
+
+.buffer-value {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.buffer-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.insight-body .insight-foot {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.section-title {
+  margin: 8px 0 -4px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.analysis-grid > .wide {
+  grid-column: 1 / -1;
+}
+
+.reliability {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reliability-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.reliability-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.reliability-stats .kpi-value {
+  font-size: 20px;
+}
+
+.range-track {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--neutral-mid);
+}
+
+.range-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: var(--series-actual);
+  opacity: 0.85;
+}
+
+.range-mark {
+  position: absolute;
+  top: -4px;
+  width: 4px;
+  height: 18px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+.range-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+@media (max-width: 1024px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .kpi-grid {
+    gap: 12px;
+  }
+
+  .kpi {
+    padding: 14px 16px;
+  }
+
+  .kpi-value {
+    font-size: 20px;
+  }
+
+  .insight {
+    flex-direction: column;
+  }
+
+  .buffer-list,
+  .reliability-stats {
+    grid-template-columns: 1fr;
+  }
 }
