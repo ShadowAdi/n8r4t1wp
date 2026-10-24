@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { SeriesPoint } from '../api'
-import { formatDateTime, formatDay, formatGW, formatMW, formatSignedMW, formatTime, niceTicks } from '../format'
+import { formatDateTime, formatDay, formatGW, formatMW, formatSignedMW, formatTime, dayTicks, niceTicks } from '../format'
 
 interface Props {
   points: SeriesPoint[]
@@ -63,6 +63,7 @@ export default function GenerationChart({ points, loading }: Props) {
 
   const spanHours = rows.length > 1 ? (rows[rows.length - 1].t - rows[0].t) / HOUR : 0
   const tickFormatter = spanHours <= 48 ? formatTime : formatDay
+  const xTicks = spanHours <= 48 || rows.length === 0 ? undefined : dayTicks(rows[0].t, rows[rows.length - 1].t)
   const yTicks = useMemo(() => niceTicks(Math.max(0, ...rows.map((r) => Math.max(r.actual, r.forecast ?? 0)))), [rows])
 
   return (
@@ -106,6 +107,7 @@ export default function GenerationChart({ points, loading }: Props) {
                 type="number"
                 scale="time"
                 domain={['dataMin', 'dataMax']}
+                ticks={xTicks}
                 tickFormatter={tickFormatter}
                 stroke="var(--axis)"
                 tick={{ fill: 'var(--text-muted)', fontSize: 12 }}

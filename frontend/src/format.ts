@@ -44,3 +44,11 @@ export function niceTicks(max: number, target = 5): number[] {
   const step = [1, 2, 2.5, 5, 10, 20].map((m) => m * magnitude).find((s) => Math.ceil(max / s) <= target) ?? max
   return Array.from({ length: Math.ceil(max / step) + 1 }, (_, i) => i * step)
 }
+
+export function dayTicks(startMs: number, endMs: number, maxTicks = 10): number[] {
+  const DAY = 86_400_000
+  const first = Math.ceil(startMs / DAY) * DAY
+  const days = Math.floor((endMs - first) / DAY) + 1
+  const step = Math.max(1, Math.ceil(days / maxTicks))
+  return Array.from({ length: Math.ceil(days / step) }, (_, i) => first + i * step * DAY).filter((t) => t <= endMs)
+}
