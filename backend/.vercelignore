@@ -1,0 +1,9 @@
+.venv
+.cache
+.pytest_cache
+__pycache__
+tests
+Dockerfile
+.dockerignore
+pytest.ini
+requirements-dev.txt
