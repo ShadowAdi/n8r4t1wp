@@ -6,7 +6,7 @@ Scope: GB national wind only, Elexon BMRS data only, purchase decisions made in 
 
 **Live app:** https://n8r4t1wp-1bsm.vercel.app
 **API:** https://n8r4t1wp-backend.vercel.app/api/health · interactive docs at https://n8r4t1wp-backend.vercel.app/docs
-**Video walkthrough:** _add unlisted YouTube link here_
+**Video walkthrough:** https://youtu.be/9jYLRNMmCts
 
 ---
 
