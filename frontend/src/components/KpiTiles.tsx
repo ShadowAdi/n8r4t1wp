@@ -1,5 +1,5 @@
 import type { SeriesResponse } from '../api'
-import { formatMW, formatPercent, formatSignedMW } from '../format'
+import { formatMW } from '../format'
 
 interface Props {
   series: SeriesResponse | null
@@ -13,29 +13,29 @@ interface Tile {
 }
 
 function tiles(series: SeriesResponse): Tile[] {
-  const { stats, coverage } = series
+  const { stats } = series
   if (!stats) return []
-  const direction = stats.bias > 0 ? 'Wind over-forecast on average' : stats.bias < 0 ? 'Wind under-forecast on average' : 'No systematic bias'
+  const tooHigh = stats.bias >= 0
   return [
     {
-      label: 'Typical error (MAE)',
+      label: 'Average miss',
       value: formatMW(stats.mae),
-      note: `${formatPercent(stats.normalised_mae)} of mean wind output`,
+      note: 'Typical gap between forecast and actual',
     },
     {
-      label: 'Average bias',
-      value: formatSignedMW(stats.bias),
-      note: direction,
+      label: tooHigh ? 'Forecast too high by' : 'Forecast too low by',
+      value: formatMW(Math.abs(stats.bias)),
+      note: tooHigh ? 'On average — less wind arrives than forecast' : 'On average — more wind arrives than forecast',
     },
     {
-      label: '90% of periods within',
+      label: '9 in 10 times within',
       value: `±${formatMW(stats.p90_abs_error)}`,
-      note: `Worst 1%: beyond ±${formatMW(stats.p99_abs_error)}`,
+      note: `Rare worst case: ±${formatMW(stats.p99_abs_error)}`,
     },
     {
-      label: 'Periods evaluated',
-      value: stats.count.toLocaleString('en-GB'),
-      note: `${coverage.matched} of ${coverage.forecast_slots} hourly slots had a forecast`,
+      label: 'Off by about',
+      value: `${Math.round(stats.normalised_mae * 100)}%`,
+      note: 'Of typical wind output',
     },
   ]
 }

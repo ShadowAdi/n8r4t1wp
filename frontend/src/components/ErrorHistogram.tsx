@@ -23,7 +23,7 @@ function TooltipBody({ active, payload }: { active?: boolean; payload?: { payloa
       <div className="tooltip-row">
         Share <strong>{(b.share * 100).toFixed(1)}%</strong>
       </div>
-      <div className="tooltip-foot">{b.lower >= 0 ? 'Forecast above actual (over-forecast)' : 'Forecast below actual (under-forecast)'}</div>
+      <div className="tooltip-foot">{b.lower >= 0 ? 'Forecast too high' : 'Forecast too low'}</div>
     </div>
   )
 }
@@ -38,17 +38,17 @@ export default function ErrorHistogram({ bins }: Props) {
     <section className="card">
       <header className="card-header">
         <div>
-          <h2>Error distribution</h2>
-          <p className="card-sub">Forecast − actual, in GW. Right of zero means wind was over-forecast.</p>
+          <h2>How often, and by how much, was it wrong?</h2>
+          <p className="card-sub">Number of periods by size of miss (GW). Red = forecast too high, blue = too low.</p>
         </div>
         <ul className="legend" aria-label="Legend">
           <li>
             <span className="swatch block under" />
-            Under
+            Too low
           </li>
           <li>
             <span className="swatch block over" />
-            Over
+            Too high
           </li>
         </ul>
       </header>

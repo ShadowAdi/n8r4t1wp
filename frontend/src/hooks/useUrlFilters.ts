@@ -7,7 +7,7 @@ export const WINDOW_END = '2026-02-01'
 export const DEFAULT_FILTERS: Filters = {
   startDate: WINDOW_START,
   endDate: WINDOW_END,
-  mode: 'horizon',
+  mode: 'day_ahead',
   horizonHours: 4,
   cutoff: '09:00',
 }
@@ -31,7 +31,7 @@ function readFilters(): Filters {
   return {
     startDate: startDate <= endDate ? startDate : endDate,
     endDate,
-    mode: (params.get('mode') as Mode) === 'day_ahead' ? 'day_ahead' : 'horizon',
+    mode: (params.get('mode') as Mode) === 'horizon' ? 'horizon' : 'day_ahead',
     horizonHours: Number.isFinite(horizon) && horizon >= 0 && horizon <= 48 && params.has('h') ? horizon : DEFAULT_FILTERS.horizonHours,
     cutoff: cutoff && TIME.test(cutoff) ? cutoff : DEFAULT_FILTERS.cutoff,
   }

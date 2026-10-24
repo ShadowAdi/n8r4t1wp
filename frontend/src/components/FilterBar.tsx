@@ -61,17 +61,8 @@ export default function FilterBar({ filters, onChange }: Props) {
       </div>
 
       <div className="filter-group">
-        <span className="filter-label">Forecast used</span>
+        <span className="filter-label">Which forecast</span>
         <div className="segmented" role="radiogroup" aria-label="Forecast selection mode">
-          <button
-            type="button"
-            role="radio"
-            aria-checked={filters.mode === 'horizon'}
-            className={filters.mode === 'horizon' ? 'active' : ''}
-            onClick={() => onChange({ mode: 'horizon' })}
-          >
-            Fixed horizon
-          </button>
           <button
             type="button"
             role="radio"
@@ -79,7 +70,16 @@ export default function FilterBar({ filters, onChange }: Props) {
             className={filters.mode === 'day_ahead' ? 'active' : ''}
             onClick={() => onChange({ mode: 'day_ahead' })}
           >
-            Day-ahead cutoff
+            Day-ahead (D‑1)
+          </button>
+          <button
+            type="button"
+            role="radio"
+            aria-checked={filters.mode === 'horizon'}
+            className={filters.mode === 'horizon' ? 'active' : ''}
+            onClick={() => onChange({ mode: 'horizon' })}
+          >
+            Hours ahead
           </button>
         </div>
       </div>
@@ -88,7 +88,7 @@ export default function FilterBar({ filters, onChange }: Props) {
         {filters.mode === 'horizon' ? (
           <>
             <label className="filter-label" htmlFor="horizon">
-              Forecast horizon <strong>{formatHours(filters.horizonHours)}</strong>
+              Forecast made <strong>{formatHours(filters.horizonHours)} ahead</strong>
             </label>
             <input
               id="horizon"
@@ -113,13 +113,13 @@ export default function FilterBar({ filters, onChange }: Props) {
               ))}
             </div>
             <p className="filter-hint">
-              Latest forecast published at least {formatHours(filters.horizonHours)} before each delivery period.
+              Uses the latest forecast published at least {formatHours(filters.horizonHours)} before each delivery period.
             </p>
           </>
         ) : (
           <>
             <label className="filter-label" htmlFor="cutoff">
-              Decision time (UK, day before delivery)
+              Bidding time (UK, day before)
             </label>
             <select id="cutoff" value={filters.cutoff} onChange={(e) => onChange({ cutoff: e.target.value })}>
               {CUTOFFS.map((c) => (
@@ -129,7 +129,7 @@ export default function FilterBar({ filters, onChange }: Props) {
               ))}
             </select>
             <p className="filter-hint">
-              Latest forecast published before {filters.cutoff} on D‑1 — what the desk sees when it bids.
+              The latest forecast available at {filters.cutoff} the day before delivery — when you place day-ahead bids.
             </p>
           </>
         )}

@@ -18,10 +18,10 @@ function TooltipBody({ active, payload }: { active?: boolean; payload?: { payloa
         {String(r.hour).padStart(2, '0')}:00 UK
       </div>
       <div className="tooltip-row">
-        MAE <strong>{formatMW(r.mae)}</strong>
+        Average miss <strong>{formatMW(r.mae)}</strong>
       </div>
       <div className="tooltip-row">
-        Bias <strong>{formatSignedMW(r.bias)}</strong>
+        Forecast too high by <strong>{formatSignedMW(r.bias)}</strong>
       </div>
       <div className="tooltip-foot">{r.count} periods</div>
     </div>
@@ -34,8 +34,8 @@ export default function HourlyErrorChart({ rows }: Props) {
     <section className="card">
       <header className="card-header">
         <div>
-          <h2>Error by time of day</h2>
-          <p className="card-sub">Mean absolute error for each delivery hour (UK time).</p>
+          <h2>When in the day is it least reliable?</h2>
+          <p className="card-sub">Average miss for each delivery hour (UK time).</p>
         </div>
       </header>
       <div className="chart-box">

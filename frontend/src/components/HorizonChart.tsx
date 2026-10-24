@@ -16,11 +16,11 @@ function TooltipBody({ active, payload }: { active?: boolean; payload?: { payloa
       <div className="tooltip-title">Forecast made {formatHours(p.horizon_hours)} ahead</div>
       <div className="tooltip-row">
         <span className="swatch mae" />
-        MAE <strong>{formatMW(p.mae)}</strong>
+        Average miss <strong>{formatMW(p.mae)}</strong>
       </div>
       <div className="tooltip-row">
         <span className="swatch p90" />
-        P90 error <strong>{formatMW(p.p90_abs_error)}</strong>
+        9 in 10 within <strong>±{formatMW(p.p90_abs_error)}</strong>
       </div>
       <div className="tooltip-foot">{p.count} periods compared</div>
     </div>
@@ -45,17 +45,17 @@ export default function HorizonChart({ curve, selectedHours }: Props) {
     <section className="card">
       <header className="card-header">
         <div>
-          <h2>Error grows with forecast horizon</h2>
-          <p className="card-sub">Typical (MAE) and 90th-percentile absolute error vs how far ahead the forecast was made.</p>
+          <h2>How the miss changes the further ahead you forecast</h2>
+          <p className="card-sub">Forecast error by how many hours before delivery the forecast was made.</p>
         </div>
         <ul className="legend" aria-label="Legend">
           <li>
             <span className="swatch mae" />
-            MAE
+            Average miss
           </li>
           <li>
             <span className="swatch p90" />
-            P90 error
+            9 in 10 within
           </li>
         </ul>
       </header>
@@ -86,7 +86,7 @@ export default function HorizonChart({ curve, selectedHours }: Props) {
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              label={endLabel('P90', 'var(--series-p90)', lastIndex)}
+              label={endLabel('9 in 10', 'var(--series-p90)', lastIndex)}
             />
             <Line
               dataKey="mae"
@@ -94,7 +94,7 @@ export default function HorizonChart({ curve, selectedHours }: Props) {
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
-              label={endLabel('MAE', 'var(--series-mae)', lastIndex)}
+              label={endLabel('Average', 'var(--series-mae)', lastIndex)}
             />
           </LineChart>
         </ResponsiveContainer>
